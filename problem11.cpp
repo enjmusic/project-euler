@@ -27,11 +27,36 @@ int grid[20][20] = {
 
 int main(int argc, char** argv) {
 	int greatestProduct = 0;
+	int i, j, currProduct;
 
 	// Vertical
+	for (i = 0; i < 17; i++) {
+		for (j = 0; j < 20; j++) {
+			currProduct = grid[i][j] * grid[i+1][j] * grid[i+2][j] * grid[i+3][j];
+			if (currProduct > greatestProduct) greatestProduct = currProduct;
+		}
+	}
+
 	// Horizontal
-	// NW->SE Diagonal
-	// SW->NE Diagonal
+	for (i = 0; i < 20; i++) {
+		for (j = 0; j < 17; j++) {
+			currProduct = grid[i][j] * grid[i][j+1] * grid[i][j+2] * grid[i][j+3];
+			if (currProduct > greatestProduct) greatestProduct = currProduct;
+		}
+	}
+
+	// 2 Diagonals
+	for (i = 0; i < 17; i++) {
+		for (j = 0; j < 17; j++) {
+			// SW->NE diagonal
+			currProduct = grid[i+3][j] * grid[i+2][j+1] * grid[i+1][j+2] * grid[i][j+3];
+			if (currProduct > greatestProduct) greatestProduct = currProduct;
+
+			// NW->SE diagonal
+			currProduct = grid[i][j] * grid[i+1][j+1] * grid[i+2][j+2] * grid[i+3][j+3];
+			if (currProduct > greatestProduct) greatestProduct = currProduct;
+		}
+	}
 
 	cout << greatestProduct << endl;
 }
