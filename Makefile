@@ -1,21 +1,24 @@
-OBJS_P1 = problem1.o
-OBJS_P2 = problem2.o
-
 CC = g++-5
 CFLAGS = -Wall -c -g
 LFLAGS = -Wall -g
 STD = -std=c++14
 
-all: p1 p2
+all: p1 p2 p3
 
-p1: $(OBJS_P1)
-	$(CC) $(LFLAGS) $(OBJS_P1) -o p1 $(STD)
+p1: problem1.o
+	$(CC) $(LFLAGS) problem1.o -o p1 $(STD)
 
 problem1.o: problem1.cpp
 	$(CC) $(CFLAGS) problem1.cpp $(STD)
 
-p2: $(OBJS_P2)
-	$(CC) $(LFLAGS) $(OBJS_P2) -o p2 $(STD)
+p2: problem2.o
+	$(CC) $(LFLAGS) problem2.o -o p2 $(STD)
 
 problem2.o: problem2.cpp
 	$(CC) $(CFLAGS) problem2.cpp $(STD)
+
+p3: problem3.o
+	$(CC) $(LFLAGS) problem3.o -o p3 $(STD)
+
+problem3.o: problem3.cpp
+	$(CC) $(CFLAGS) problem3.cpp $(STD)
