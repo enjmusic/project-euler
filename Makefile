@@ -1,6 +1,6 @@
 CC = g++-5
-CFLAGS = -Wall -c -g
-LFLAGS = -Wall -g
+CFLAGS = -Wall -c
+LFLAGS = -Wall
 STD = -std=c++14
 
 all: p1 p2 p3
