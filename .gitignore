@@ -1,0 +1,21 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# Unignore Makefile
+!Makefile
+
+# Compiled object files #
+*.o
+*.out
+
+# Mac folder format #
+.DS_Store
+
+# Debugging files #
+*.dSYM
