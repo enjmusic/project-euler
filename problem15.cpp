@@ -62,11 +62,25 @@ public:
 
 	BigInt operator*(int b) {
 		auto result = BigInt();
+		string multip = to_string(b);
 
 		int place = 0;
 		auto it = this->number.rbegin();
 		for (; it != this->number.rend(); ++it) {
-			auto thisPlace = BigInt((*it - '0') * b);
+			auto thisPlace = BigInt();
+
+			int place2 = 0;
+			for (auto it2 = multip.rbegin(); it2 != multip.rend(); ++it2) {
+				auto subPlace = BigInt((*it2 - '0') * (*it - '0'));
+
+				for (int i = 0; i < place2; i++) {
+					subPlace.number.push_back('0');
+				}
+
+				thisPlace = thisPlace + subPlace;
+				place2++;
+			}
+
 			for (int i = 0; i < place; i++) {
 				thisPlace.number.push_back('0');
 			}
@@ -78,7 +92,7 @@ public:
 		return result;
 	}
 
-	BigInt operator/(int b) {
+	BigInt operator/(const BigInt &b) {
 		return *this;
 	}
 };
@@ -89,7 +103,12 @@ BigInt factOverNSquared(unsigned char n, unsigned char d) {
 		product = product * n;
 		n--;
 	}
-	return product/2;
+	auto divisor = BigInt(1);
+	while (d > 0) {
+		divisor = divisor * d;
+		d--;
+	}
+	return product/divisor;
 }
 
 int main(int argc, char** argv) {
@@ -103,7 +122,6 @@ int main(int argc, char** argv) {
 	//			 20! * 20!
 	//
 
-	// factOverNSquared(40, 20).print();
-	// (BigInt(29) + BigInt(11)).print();
-	(BigInt(21) * 3).print();
+	factOverNSquared(40, 20).print();
+	// (BigInt(2147483647) * 2147483647).print();
 }
