@@ -3,7 +3,7 @@ CFLAGS = -Wall -c
 LFLAGS = -Wall
 STD = -std=c++14
 
-all: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13
+all: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14
 
 p1: problem1.o
 	$(CC) $(LFLAGS) problem1.o -o p1 $(STD)
@@ -82,5 +82,11 @@ p13: problem13.o
 
 problem13.o: problem13.cpp
 	$(CC) $(CFLAGS) problem13.cpp $(STD)
+
+p14: problem14.o
+	$(CC) $(LFLAGS) problem14.o -o p14 $(STD)
+
+problem14.o: problem14.cpp
+	$(CC) $(CFLAGS) problem14.cpp $(STD)
 
 
