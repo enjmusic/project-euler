@@ -9,6 +9,9 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
+using std::string;
+using std::to_string;
+
 // Enough of a BigInt implementation for this problem
 class BigInt {
 	string number;
@@ -19,6 +22,10 @@ public:
 
 	BigInt(int i) {
 		this->number = to_string(i);
+	}
+
+	string toString() {
+		return this->number;
 	}
 
 	void print() {

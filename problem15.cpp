@@ -1,9 +1,5 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
-using std::string;
-using std::to_string;
-using std::max;
 using std::cout;
 using std::endl;
 #include "bigint.h"
