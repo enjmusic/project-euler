@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
+using std::vector;
 using std::cout;
 using std::endl;
 
 #define SUBTREE_SCAN_DEPTH 3
 
-int pyramid[15][15] = {
+vector<vector<int>> pyramid = {
 
 							  {75},
 							{95, 64},
@@ -25,9 +27,9 @@ int pyramid[15][15] = {
 };
 
 int main(int argc, char** argv) {
-	for (int i = 0; i < 15; i++) {
-		for (int j = 0; j < i + 1; j++) {
-			cout << pyramid[i][j] << " ";
+	for (auto it1 = pyramid.begin(); it1 != pyramid.end(); ++it1) {
+		for (auto it2 = it1->begin(); it2 != it1->end(); ++it2) {
+			cout << *it2 << " ";
 		}
 		cout << endl;
 	}
