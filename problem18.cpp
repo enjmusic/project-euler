@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using std::vector;
+using std::string;
 using std::cout;
 using std::endl;
 
@@ -40,6 +42,19 @@ void printPyramid(vector<vector<int>> &p) {
 	cout << endl;
 }
 
+int predictUpdate(vector<vector<int>> &p, unsigned int &tier, unsigned int &x) {
+	int predictiveLength = 0;
+
+	return predictiveLength;
+}
+
 int main(int argc, char** argv) {
 	printPyramid(pyramid);
+	unsigned int tier = 0;
+	unsigned int x = 0;
+	int sum = 0;
+	while (tier != pyramid.size()) {
+		sum += predictUpdate(pyramid, tier, x);
+	}
+	cout << sum << endl;
 }
