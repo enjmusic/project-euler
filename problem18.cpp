@@ -29,7 +29,7 @@ vector<vector<int>> pyramid = {
 int main(int argc, char** argv) {
 	for (auto it1 = pyramid.begin(); it1 != pyramid.end(); ++it1) {
 		for (auto it2 = it1->begin(); it2 != it1->end(); ++it2) {
-			cout << *it2 << " ";
+			cout << (*it2 < 10 ? " " : "") << *it2 << " ";
 		}
 		cout << endl;
 	}
