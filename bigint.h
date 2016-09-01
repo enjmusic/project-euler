@@ -9,62 +9,73 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
+#include <vector>
+using std::vector;
 using std::string;
-using std::to_string;
 
 // Enough of a BigInt implementation for this problem
 class BigInt {
-	string number;
+	vector<int> num;
 public:
 	BigInt() {
-		this->number = "";
+		this->num = {};
 	}
 
 	BigInt(int i) {
-		this->number = to_string(i);
+		this->num = {};
+		vector<int> rev = {};
+		while (i) {
+			rev.push_back(i%10);
+			i /= 10;
+		}
+		for (auto it = rev.rbegin(); it != rev.rend(); ++it) {
+			this->num.push_back(*it);
+		}
 	}
 
 	string toString() {
-		return this->number;
+		string out;
+		for (auto it = this->num.begin(); it != this->num.end(); ++it) {
+			out.push_back(*it + '0');
+		}
+		return out;
 	}
 
 	void print() {
-		cout << this->number << endl;
+		for (auto it = this->num.begin(); it != this->num.end(); ++it) {
+			cout << *it;
+		}
+		cout << endl;
 	}
 
 	BigInt operator+(const BigInt &b) {
 		auto result = BigInt();
 
-		auto thisIter = this->number.rbegin();
-		auto otherIter = b.number.rbegin();
+		auto thisIter = this->num.rbegin();
+		auto otherIter = b.num.rbegin();
 
 		int sum = 0;
 		do {
-			if (thisIter != this->number.rend()) {
-				sum += (*thisIter - '0');
+			if (thisIter != this->num.rend()) {
+				sum += *thisIter;
 				thisIter++;
 			}
-			if (otherIter != b.number.rend()) {
-				sum += (*otherIter - '0');
+			if (otherIter != b.num.rend()) {
+				sum += *otherIter;
 				otherIter++;
 			}
 
-			result.number.push_back(sum%10 + '0');
+			result.num.push_back(sum%10);
 			sum /= 10;
 		} while (sum || 
-			thisIter != this->number.rend() ||
-			otherIter != b.number.rend());
+			thisIter != this->num.rend() ||
+			otherIter != b.num.rend());
 
-		// Remove extra zeroes 
-		// while (result.number.back() == 0) {
-		// 	result.number.pop_back();
-		// }
-
-		string reversed;
-		for (auto it = result.number.rbegin(); it != result.number.rend(); ++it) {
+		vector<int> reversed;
+		for (auto it = result.num.rbegin(); it != result.num.rend(); ++it) {
 			reversed.push_back(*it);
 		}
-		result.number = reversed;
+		result.num = reversed;
 
 		return result;
 	}
@@ -73,17 +84,17 @@ public:
 		auto result = BigInt();
 
 		int place = 0;
-		auto it = this->number.rbegin();
-		for (; it != this->number.rend(); ++it) {
+		auto it = this->num.rbegin();
+		for (; it != this->num.rend(); ++it) {
 			auto thisPlace = BigInt();
 
 			int place2 = 0;
-			auto it2 = b.number.rbegin();
-			for (; it2 != b.number.rend(); ++it2) {
-				auto subPlace = BigInt((*it2 - '0') * (*it - '0'));
+			auto it2 = b.num.rbegin();
+			for (; it2 != b.num.rend(); ++it2) {
+				auto subPlace = BigInt((*it) * (*it2));
 
 				for (int i = 0; i < place2; i++) {
-					subPlace.number.push_back('0');
+					subPlace.num.push_back(0);
 				}
 
 				thisPlace = thisPlace + subPlace;
@@ -91,7 +102,7 @@ public:
 			}
 
 			for (int i = 0; i < place; i++) {
-				thisPlace.number.push_back('0');
+				thisPlace.num.push_back(0);
 			}
 
 			result = result + thisPlace;
@@ -102,39 +113,44 @@ public:
 	}
 
 	bool operator<(const BigInt &b) const {
-		if (this->number.length() < b.number.length()) return true;
-		if (this->number.length() > b.number.length()) return false;
-		return (this->number < b.number);
+		if (this->num.size() < b.num.size()) return true;
+		if (this->num.size() > b.num.size()) return false;
+		auto it1 = this->num.begin();
+		auto it2 = b.num.begin();
+		while (it1 != this->num.end()) {
+			if (*it1 > *it2) {
+				return false;
+			}
+			if (*it1 < *it2) {
+				return true;
+			}
+			it1++; it2++;
+		}
+		return false;
 	}
-
-	// bool operator>(const BigInt &b) const {
-	// 	if (this->number.length() < b.number.length()) return true;
-	// 	if (this->number.length() > b.number.length()) return false;
-	// 	return (this->number < b.number);
-	// }
 
 	// NOT 100% EFFICIENT, JUST A TEMPORARY, WORKING VERSION
 	BigInt operator/(const BigInt &b) {
 		auto dummy = BigInt(0);
 		auto result = BigInt(0);
-		if (b.number == "0") return result;
+		if (!b.num.size()) return result;
 
-		int figsDiff = this->number.length() - b.number.length();
+		int figsDiff = this->num.size() - b.num.size();
 		auto toAdd = BigInt(0) + b;
 		for (int i = 0; i < figsDiff; i++) {
-			toAdd.number.push_back('0');
+			toAdd.num.push_back(0);
 		}
 
 		while (dummy < *this) {
 			if ((*this < (dummy + toAdd)) && figsDiff) {
 				figsDiff--;
-				toAdd.number.pop_back();
+				toAdd.num.pop_back();
 			}
 
 			dummy = dummy + toAdd;
 			auto toInc = BigInt(1);
 			for (int i = 0; i < figsDiff; i++) {
-				toInc.number.push_back('0');
+				toInc.num.push_back(0);
 			}
 			result = result + toInc;
 		}
