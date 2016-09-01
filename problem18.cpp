@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 using std::vector;
 using std::string;
+using std::pow;
 using std::cout;
 using std::endl;
 
-#define SUBTREE_SCAN_DEPTH 3
+#define SUBTREE_SCAN_DEPTH 5
 
 vector<vector<int>> pyramid = {
 
@@ -43,9 +45,49 @@ void printPyramid(vector<vector<int>> &p) {
 }
 
 int predictUpdate(vector<vector<int>> &p, unsigned int &tier, unsigned int &x) {
-	int predictiveLength = 0;
+	int maxSum = 0;
+	unsigned int maxRoute = 0;
+	unsigned int tempTier;
+	unsigned int tempX;
 
-	return predictiveLength;
+	// 6 -> 110 -> LEFT RIGHT RIGHT, etc. thru 2^SUBTREE_SCAN_DEPTH
+	unsigned int scanDepth = (SUBTREE_SCAN_DEPTH > (p.size() - tier - 1)) ? (p.size() - tier - 1) : SUBTREE_SCAN_DEPTH;
+	unsigned int upperBound = (unsigned int)pow(2, scanDepth);
+	for (unsigned int i = 0; i < upperBound; i++) {
+		tempTier = tier;
+		tempX = x;
+		unsigned int bitMask = 1; // To get individual bits of i, the scan number
+		int currSum = 0;
+		for (unsigned int j = 0; j < scanDepth; j++) {
+			// go down
+			tempTier++;
+			if ((i&bitMask) >> j) {
+				// go right
+				tempX++;
+			}
+			currSum += p[tempTier][tempX];
+			bitMask <<= 1;
+		}
+		if (currSum > maxSum) {
+			maxSum = currSum;
+			maxRoute = i;
+		}
+	}
+
+	if (!tier) maxSum += p[tier][x]; // add root of tree
+
+	unsigned int bitMask = 1;
+	for (unsigned int j = 0; j < scanDepth; j++) {
+		// move references down
+		tier++;
+		if ((maxRoute&bitMask) >> j) {
+			// move references right
+			x++;
+		}
+		bitMask <<= 1;
+	}
+
+	return maxSum;
 }
 
 int main(int argc, char** argv) {
@@ -53,8 +95,8 @@ int main(int argc, char** argv) {
 	unsigned int tier = 0;
 	unsigned int x = 0;
 	int sum = 0;
-	while (tier != pyramid.size()) {
+	while (tier != pyramid.size() - 1) {
 		sum += predictUpdate(pyramid, tier, x);
 	}
-	cout << sum << endl;
+	cout << "Greatest path: " << sum << "\n" << endl;
 }
