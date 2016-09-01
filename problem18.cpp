@@ -26,11 +26,20 @@ vector<vector<int>> pyramid = {
 
 };
 
-int main(int argc, char** argv) {
+void printPyramid(vector<vector<int>> &p) {
+	cout << endl;
+	int height = p.size();
 	for (auto it1 = pyramid.begin(); it1 != pyramid.end(); ++it1) {
+		for (int i = 0; i < height; i++) { cout << (i%2 ? "  " : " "); }
 		for (auto it2 = it1->begin(); it2 != it1->end(); ++it2) {
 			cout << (*it2 < 10 ? " " : "") << *it2 << " ";
 		}
 		cout << endl;
+		height--;
 	}
+	cout << endl;
+}
+
+int main(int argc, char** argv) {
+	printPyramid(pyramid);
 }
