@@ -3,10 +3,14 @@ CFLAGS = -Wall -c
 LFLAGS = -Wall
 STD = -std=c++14
 
-all: firsttwenty
+all: firsttwenty secondtwenty
 
-firsttwenty: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17 p18 p19
+firsttwenty: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17 p18 p19 p20
+secondtwenty:
 
+#
+# FIRST TWENTY
+#
 p1: problem1.o
 	$(CC) $(LFLAGS) problem1.o -o p1 $(STD)
 
@@ -121,5 +125,13 @@ p19: problem19.o
 problem19.o: problem19.cpp
 	$(CC) $(CFLAGS) problem19.cpp $(STD)
 
+p20: problem20.o
+	$(CC) $(LFLAGS) problem20.o -o p20 $(STD)
 
+problem20.o: problem20.cpp bigint.h
+	$(CC) $(CFLAGS) problem20.cpp $(STD)
+
+#
+# SECOND TWENTY
+#
 
