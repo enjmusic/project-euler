@@ -143,7 +143,7 @@ problem21.o: problem21.cpp
 p22: problem22.o
 	$(CC) $(LFLAGS) problem22.o -o p22 $(STD)
 
-problem22.o: problem22.cpp bigint.h
+problem22.o: problem22.cpp
 	$(CC) $(CFLAGS) problem22.cpp $(STD)
 
 
