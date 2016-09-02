@@ -6,7 +6,7 @@ STD = -std=c++14
 all: firsttwenty secondtwenty
 
 firsttwenty: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17 p18 p19 p20
-secondtwenty:
+secondtwenty: p21 p22
 
 #
 # FIRST TWENTY
@@ -134,4 +134,17 @@ problem20.o: problem20.cpp bigint.h
 #
 # SECOND TWENTY
 #
+p21: problem21.o
+	$(CC) $(LFLAGS) problem21.o -o p21 $(STD)
+
+problem21.o: problem21.cpp
+	$(CC) $(CFLAGS) problem21.cpp $(STD)
+
+p22: problem22.o
+	$(CC) $(LFLAGS) problem22.o -o p22 $(STD)
+
+problem22.o: problem22.cpp bigint.h
+	$(CC) $(CFLAGS) problem22.cpp $(STD)
+
+
 
