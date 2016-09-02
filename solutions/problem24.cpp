@@ -14,8 +14,9 @@ using std::vector;
  * the number of digits (10 here)
  *
  * For this problem, this reduces to
- * the same amount of time for any
- * convolution index, 1 through 10!
+ * constant time, since we only care
+ * about n = 10, to get the value of
+ * any convolution index, 1 through 10!
  *
  * This makes calculation significantly
  * faster than creating a 10!-length list
