@@ -45,6 +45,10 @@ public:
 		return num;
 	}
 
+	int numDigits() {
+		return num.size();
+	}
+
 	void print() {
 		for (auto it = this->num.begin(); it != this->num.end(); ++it) {
 			cout << *it;
