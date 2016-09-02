@@ -2,7 +2,7 @@
 #include <string>
 using std::cout;
 using std::endl;
-#include "bigint.h"
+#include "../headers/bigint.h"
 
 BigInt factOverNSquared(unsigned char n, unsigned char d) {
 	auto product = BigInt(1);

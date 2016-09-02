@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     double duration;
     start = clock();
 
-	ifstream file("downloaded_files/p022_names.txt");
+	ifstream file("../downloaded_files/p022_names.txt");
 	vector<string> names;
 	string name;
 

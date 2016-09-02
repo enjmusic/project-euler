@@ -3,7 +3,7 @@
 using std::cout;
 using std::endl;
 using std::vector;
-#include "bigint.h"
+#include "../headers/bigint.h"
 
 int main(int argc, char** argv) {
 	auto n = BigInt(2);
