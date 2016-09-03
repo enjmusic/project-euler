@@ -167,7 +167,7 @@ object_files/problem25.o: solutions/problem25.cpp headers/bigint.h
 p26: object_files/problem26.o
 	$(CC) $(LFLAGS) object_files/problem26.o -o p26 $(STD)
 
-object_files/problem26.o: solutions/problem26.cpp
+object_files/problem26.o: solutions/problem26.cpp headers/suffixtree.h
 	$(CC) $(CFLAGS) -o $@ solutions/problem26.cpp $(STD)
 
 

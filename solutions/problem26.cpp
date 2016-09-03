@@ -2,6 +2,8 @@
 #include <ctime> // Timing implementation
 #include <string>
 #include <vector>
+#include "../headers/suffixtree.h"
+
 using std::clock_t;
 using std::clock;
 using std::cout;
