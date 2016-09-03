@@ -6,7 +6,7 @@ STD = -std=c++14
 all: firsttwenty secondtwenty
 
 firsttwenty: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17 p18 p19 p20
-secondtwenty: p21 p22 p23 p24 p25
+secondtwenty: p21 p22 p23 p24 p25 p26
 
 #
 # FIRST TWENTY
@@ -163,6 +163,12 @@ p25: object_files/problem25.o
 
 object_files/problem25.o: solutions/problem25.cpp headers/bigint.h
 	$(CC) $(CFLAGS) -o $@ solutions/problem25.cpp $(STD)
+
+p26: object_files/problem26.o
+	$(CC) $(LFLAGS) object_files/problem26.o -o p26 $(STD)
+
+object_files/problem26.o: solutions/problem26.cpp
+	$(CC) $(CFLAGS) -o $@ solutions/problem26.cpp $(STD)
 
 
 
