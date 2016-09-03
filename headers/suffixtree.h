@@ -24,113 +24,179 @@ class STEdge {
 	int startIndex;
 	int endIndex; // endIndex of -1 for current end a.k.a #
 public:
-	// CTOR
-	STEdge(int start, int end) {
-		startIndex = start;
-		endIndex = end;
-	}
-	// DTOR
+	STEdge(int start, int end);
 	~STEdge();
 
-	/*
-	 * OTHER FUNCTIONS
-	 */
-
-	// Accessors for start/end of label
-	int getStartIndex() {
-		return startIndex;
-	}
-	int getEndIndex() {
-		return endIndex;
-	}
-
+	int getStartIndex();
+	int getEndIndex();
+	void print(const string padding);
 };
 
 class STNode {
 	vector<STEdge *> edges;
 public:
-	// CTOR
-	STNode() {
-		// TO BE IMPLEMENTED !!!
-		edges = {};
-	}
-	// DTOR
-	~STNode() {
-		for (auto it = edges.begin(); it != edges.end(); ++it) {
-			delete *it;
-		}
-	}
+	STNode();
+	~STNode();
 
-	/*
-	 * OTHER FUNCTIONS
-	 */
-
-	// Edge iterators
-	auto edges_begin() {
-		return edges.begin();
-	}
-	auto edges_end() {
-		return edges.end();
-	}
-
-	// Insert edge
-	void insert_edge(int start, int end) {
-		edges.push_back(new STEdge(start, end));
-	}
-
+	auto edges_begin();
+	auto edges_end();
+	void print(const string padding);
+	void insert_edge(int start, int end);
 };
-
-
-// STEdge DTOR (defined here, to avoid issues w/ incomplete types)
-STEdge::~STEdge() {
-	delete fork;
-}
 
 
 class SuffixTree {
 	STNode *root;
 public:
-	// CTOR
-	SuffixTree(const string &s) {
-		root = new STNode();
+	SuffixTree(const string &s);
+	~SuffixTree();
 
-		STNode *active_node = root;
-		// STEdge *active_edge;
-		char active_edge = '\0';
-		int active_length = 0;
-		int rem = 1;
-
-		int index = 0;
-		// c_end = current end a.k.a. #
-		for (auto c_end = s.begin(); c_end != s.end(); ++c_end) {
-			for (auto rit = active_node->edges_begin(); 
-				rit != active_node->edges_end(); 
-				++rit) {
-
-				if (s[(*rit)->getStartIndex()] == *c_end) {
-					active_edge = *c_end;
-					active_length++;
-					rem++;
-					break;
-				}
-			}
-			if (!active_length) {
-				root->insert_edge(index, -1);
-			}
-
-			index++;
-		}
-	}
-	// DTOR
-	~SuffixTree() {
-		delete root;
-	}
-
-	// Other functions
-	void print() {
-		cout << "To be implemented!" << endl;
-	}
-
+	void print();
 };
+
+
+/*
+ * STEdge implementation
+ */
+
+// CTOR
+STEdge::STEdge(int start, int end) {
+	fork = NULL;
+	startIndex = start;
+	endIndex = end;
+}
+// DTOR
+STEdge::~STEdge() {
+	delete fork;
+}
+
+	/*
+	 * OTHER FUNCTIONS
+	 */
+
+// Accessors for start/end of label
+int STEdge::getStartIndex() {
+	return startIndex;
+}
+int STEdge::getEndIndex() {
+	return endIndex;
+}
+
+// Print edge
+void STEdge::print(const string padding) {
+	cout << padding << "  |- ( " << startIndex << ", ";
+	cout << endIndex << " )" << endl;
+	if (fork) {
+		cout << padding << "    |" << endl;
+		fork->print(padding + "  ");
+	}
+}
+
+/*
+ * END STEdge implementation
+ */
+
+
+
+/*
+ * STNode implementation
+ */
+
+// CTOR
+STNode::STNode() {
+	// TO BE IMPLEMENTED !!!
+	edges = {};
+}
+// DTOR
+STNode::~STNode() {
+	for (auto it = edges.begin(); it != edges.end(); ++it) {
+		delete *it;
+	}
+}
+
+	/*
+	 * OTHER FUNCTIONS
+	 */
+
+// Edge iterators
+auto STNode::edges_begin() {
+	return edges.begin();
+}
+auto STNode::edges_end() {
+	return edges.end();
+}
+
+// Print node
+void STNode::print(const string padding) {
+	for (auto rit = edges.begin(); rit != edges.end(); ++rit) {
+		(*rit)->print(padding + "  ");
+	}
+}
+
+// Insert edge
+void STNode::insert_edge(int start, int end) {
+	edges.push_back(new STEdge(start, end));
+}
+
+/*
+ * END STNode implementation
+ */
+
+
+
+/*
+ * SuffixTree implementation
+ */
+
+// CTOR
+SuffixTree::SuffixTree(const string &s) {
+	root = new STNode();
+
+	STNode *active_node = root;
+	// STEdge *active_edge;
+	char active_edge = '\0';
+	int active_length = 0;
+	int rem = 1;
+
+	int index = 0;
+	// c_end = current end a.k.a. #
+	for (auto c_end = s.begin(); c_end != s.end(); ++c_end) {
+		for (auto rit = active_node->edges_begin(); 
+			rit != active_node->edges_end(); 
+			++rit) {
+
+			if (s[(*rit)->getStartIndex()] == *c_end) {
+				active_edge = *c_end;
+				active_length++;
+				rem++;
+				break;
+			}
+		}
+		if (!active_length) {
+			root->insert_edge(index, -1);
+		}
+
+		index++;
+	}
+}
+// DTOR
+SuffixTree::~SuffixTree() {
+	delete root;
+}
+
+// Other functions
+void SuffixTree::print() {
+	cout << "ROOT\n  |" << endl;
+	for (auto rit = root->edges_begin(); 
+		rit != root->edges_end(); 
+		++rit) {
+
+		(*rit)->print("");
+	}
+}
+
+/*
+ * END SuffixTree implementation
+ */
 
 #endif
