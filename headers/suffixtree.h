@@ -9,8 +9,15 @@
 #ifndef SUFFIXTREE_H
 #define SUFFIXTREE_H
 
-class STEdge {
+#include <vector>
+#include <string>
+using std::vector;
+using std::string;
 
+class STNode; // Forward declaration of STNode
+
+class STEdge {
+	STNode *fork;
 public:
 
 };
@@ -22,9 +29,23 @@ public:
 };
 
 class SuffixTree {
-	STNode root;
+	STNode *root;
 public:
+	// CTORs
+	SuffixTree() {
 
+	}
+
+	SuffixTree(const string &s) {
+
+	}
+
+	// DTOR
+	~SuffixTree() {
+
+	}
+
+	// Other functions
 };
 
 #endif

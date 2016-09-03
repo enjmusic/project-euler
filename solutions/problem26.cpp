@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 				proc %= i;
 			}
 		}
-		currDecimal.push_back('$');
+		// currDecimal.push_back('$');
 		cout << "1/" << i << " = 0." << currDecimal << endl;
 	}
 
