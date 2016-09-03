@@ -30,6 +30,7 @@ public:
 	int getStartIndex();
 	int getEndIndex();
 	void print(const string padding);
+	void split(int offset, int newStart);
 };
 
 class STNode {
@@ -87,8 +88,18 @@ void STEdge::print(const string padding) {
 	cout << padding << "  |- ( " << startIndex << ", ";
 	cout << endIndex << " )" << endl;
 	if (fork) {
-		cout << padding << "    |" << endl;
-		fork->print(padding + "  ");
+		cout << padding << "  |  |" << endl;
+		fork->print("  |");
+	}
+}
+
+void STEdge::split(int offset, int newStart) {
+	// ONLY HANDLES NON-FORKED CASE FOR NOW !!!
+	if (!fork) {
+		fork = new STNode();
+		fork->insert_edge(newStart, -1);
+		endIndex = startIndex + offset - 1;
+		fork->insert_edge(startIndex + offset, newStart - offset - 1);
 	}
 }
 
@@ -129,7 +140,7 @@ auto STNode::edges_end() {
 // Print node
 void STNode::print(const string padding) {
 	for (auto rit = edges.begin(); rit != edges.end(); ++rit) {
-		(*rit)->print(padding + "  ");
+		(*rit)->print(padding);
 	}
 }
 
@@ -153,28 +164,48 @@ SuffixTree::SuffixTree(const string &s) {
 	root = new STNode();
 
 	STNode *active_node = root;
-	// STEdge *active_edge;
-	char active_edge = '\0';
+	STEdge *active_edge = NULL;
 	int active_length = 0;
 	int rem = 1;
 
 	int index = 0;
 	// c_end = current end a.k.a. #
 	for (auto c_end = s.begin(); c_end != s.end(); ++c_end) {
-		for (auto rit = active_node->edges_begin(); 
-			rit != active_node->edges_end(); 
-			++rit) {
+		if (!active_edge) {
+			for (auto rit = active_node->edges_begin(); 
+				rit != active_node->edges_end(); 
+				++rit) {
 
-			if (s[(*rit)->getStartIndex()] == *c_end) {
-				active_edge = *c_end;
+				if (s[(*rit)->getStartIndex()] == *c_end) {
+					cout << "Found a matching suffix beginning: " << *c_end << endl;
+					active_edge = *rit;
+					active_length++;
+					rem++;
+					break;
+				}
+			}
+
+			if (!active_edge) {
+				cout << "Inserting: " << *c_end << endl;
+				root->insert_edge(index, -1);
+			}
+		} else {
+			// If edge should continue to be active
+			if (*c_end == s[active_edge->getStartIndex() + active_length]) {
+				cout << "Matching suffix continues to match..." << endl;
 				active_length++;
 				rem++;
-				break;
+			} else {
+				cout << "Matching suffix no longer matches! Splitting..." << endl;
+
+				active_edge->split(active_length, index);
+				active_edge = NULL;
+				active_length = 0;
+				rem = 1;
 			}
 		}
-		if (!active_length) {
-			root->insert_edge(index, -1);
-		}
+
+		cout << *c_end << " remainder: " << rem << endl;
 
 		index++;
 	}
